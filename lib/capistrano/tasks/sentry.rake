@@ -26,6 +26,15 @@ namespace :sentry do
     end
   end
 
+
+  task :set_sentry_api_token_from_remote_env do
+    on roles(:app) do
+      remote_env_api_token = execute 'printenv | grep SENTRY_API_TOKEN'
+      set :sentry_api_token, remote_env_api_token
+    end
+  end
+
+
   desc 'Notice new deployment in Sentry'
   task :notice_deployment do
     run_locally do
